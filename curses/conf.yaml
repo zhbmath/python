@@ -1,0 +1,10 @@
+---
+- my-task:
+    - deb01 : my-task01
+    - deb02 : my-task02
+    - deb03 : my-task03
+- me-task:
+    - deb04 : me-task04
+    - deb05 : me-task05
+    - deb06 : me-task06
+...
