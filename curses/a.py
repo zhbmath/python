@@ -2,6 +2,7 @@
 #-*- coding: UTF-8 -*-
 
 import curses
+import curses.ascii
 
 def init_screen():
     return curses.initscr()
@@ -20,10 +21,13 @@ def get_ch(win):
 if __name__=='__main__':
     try:
         stdscr=init_screen() 
+	stdscr.keypad(1) # 打开扩展键盘
         while True:
             ch=get_ch(stdscr)
-            if ( ch==ord('q') ):
+            if ( ch==ord('q') or  ch==curses.ascii.ESC ):
                 break
+            if ( ch==curses.KEY_DOWN ):
+                stdscr.addstr("Hello,")
     except Exception,e:
         raise e
     finally:
