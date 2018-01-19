@@ -4,7 +4,7 @@
 import logging
 import curses
 from curses import wrapper
-import yaml
+#import yaml
 
 logger = logging.getLogger()
 
@@ -100,7 +100,9 @@ def get_ch(win):
 
 def run_win(stdscr):
     try:
-        H0, W0 = stdscr.getmaxyx()
+        #H0, W0 = stdscr.getmaxyx()
+	H0 = curses.LINES 
+	W0 = curses.COLS
         show_msg(stdscr,  1, 1, "H0=%d, W0=%d" % (H0, W0), 4)
 
         subwin1 = create_subwin(stdscr, 1, W0/10, H0-2, W0*8/10 )
@@ -115,12 +117,13 @@ def run_win(stdscr):
         i=0
         stdscr.nodelay(1)
         subwin2.nodelay(1)
+	subwin2.keypad(1)  # open special keyboard
         while True:
             ch=get_ch(subwin2)
             if ( ch == ord('q')  ):
                 break
             else:
-                if ( ch==ord('c') or ch==10 or ch==13 ):
+                if ( ch==ord('c') or ch==10 or ch==curses.KEY_DOWN ):
                    show_msg(subwin2, H2/3-8+i, W2/16-7, "[ %-02d ]" % i  , 4)
                    move_cursor(subwin2, H2/3-8+i, W2/16-5 )
                    if ( ch==32 ):
