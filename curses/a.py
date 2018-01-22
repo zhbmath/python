@@ -4,6 +4,10 @@
 import curses
 import curses.ascii
 
+#import locale
+#locale.setlocale(locale.LC_ALL, "")
+#code = locale.getpreferredencoding()
+
 def init_screen():
     return curses.initscr()
 
@@ -43,6 +47,8 @@ def navigate(position, total, n):
 
 def main():
     stdscr=init_screen() 
+    show_msg(stdscr, curses.COLS/4, curses.LINES/4+0, "q=<quit>, Up=<Up>, Down=<Down>, Space=<select>"  )
+
     show_msg(stdscr, curses.COLS/2, curses.LINES/2+0, "[   ] netcat" )
     show_msg(stdscr, curses.COLS/2, curses.LINES/2+1, "[   ] tree" )
     show_msg(stdscr, curses.COLS/2, curses.LINES/2+2, "[   ] vim" )
@@ -61,9 +67,9 @@ def main():
 	    pos=navigate(pos, 4, 1)
             move_cursor(stdscr, curses.COLS/2+2, curses.LINES/2+pos )
         if ( ch==32 ):
-	   show_msg(stdscr, curses.COLS/2+2, curses.LINES/2+pos, "X")
-           move_cursor(stdscr, curses.COLS/2+2, curses.LINES/2+pos )
-    
+	    show_msg(stdscr, curses.COLS/2+2, curses.LINES/2+pos, "X")
+            move_cursor(stdscr, curses.COLS/2+2, curses.LINES/2+pos )
+
 if __name__=='__main__':
     try:
         main()
