@@ -18,16 +18,19 @@ def get_ch(win):
     win.nodelay(1) #重置非阻塞式接受输入，超时1秒
     return ch
 
+def main():
+    stdscr=init_screen() 
+    stdscr.keypad(1) # 打开扩展键盘
+    while True:
+        ch=get_ch(stdscr)
+        if ( ch==ord('q') or ch==curses.ascii.ESC or ch==112 ):
+            break
+        if ( ch==curses.KEY_DOWN ):
+            stdscr.addstr("Hello,")
+    
 if __name__=='__main__':
     try:
-        stdscr=init_screen() 
-	stdscr.keypad(1) # 打开扩展键盘
-        while True:
-            ch=get_ch(stdscr)
-            if ( ch==ord('q') or  ch==curses.ascii.ESC ):
-                break
-            if ( ch==curses.KEY_DOWN ):
-                stdscr.addstr("Hello,")
+        main()
     except Exception,e:
         raise e
     finally:
