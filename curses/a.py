@@ -32,7 +32,7 @@ def loop(m,n):
     else:
         return n%m
 
-def navigate(position, total, n=1):
+def navigate(position, total, n):
     """A navigator."""
     position += n
     if position < 0:
@@ -60,6 +60,9 @@ def main():
         if ( ch==curses.KEY_DOWN ):
 	    pos=navigate(pos, 4, 1)
             move_cursor(stdscr, curses.COLS/2+2, curses.LINES/2+pos )
+        if ( ch==32 ):
+	   show_msg(stdscr, curses.COLS/2+2, curses.LINES/2+pos, "X")
+           move_cursor(stdscr, curses.COLS/2+2, curses.LINES/2+pos )
     
 if __name__=='__main__':
     try:
