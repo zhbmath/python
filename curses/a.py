@@ -47,18 +47,22 @@ def navigate(position, total, n):
 
 def main():
     stdscr=init_screen() 
-    show_msg(stdscr, curses.COLS/4, curses.LINES/4+0, "q=<quit>, Up=<Up>, Down=<Down>, Space=<select>"  )
+    stdscr.box()
+    show_msg(stdscr, curses.COLS/4, curses.LINES/4+0, "q=<quit>, Up=<Up>, Down=<Down>, Space=<select>, Switch=<Tab>"  )
+    show_msg(stdscr, curses.COLS/2, curses.LINES/2+20, "<OK>"  )
+    show_msg(stdscr, curses.COLS/2+10, curses.LINES/2+20, "<Cancel>"  )
 
     show_msg(stdscr, curses.COLS/2, curses.LINES/2+0, "[   ] netcat" )
     show_msg(stdscr, curses.COLS/2, curses.LINES/2+1, "[   ] tree" )
     show_msg(stdscr, curses.COLS/2, curses.LINES/2+2, "[   ] vim" )
     show_msg(stdscr, curses.COLS/2, curses.LINES/2+3, "[   ] pv" )
     move_cursor(stdscr, curses.COLS/2+2, curses.LINES/2)
+
     stdscr.keypad(1) # 打开扩展键盘
     pos=0
     while True:
         ch=get_ch(stdscr)
-        if ( ch==ord('q') or ch==curses.ascii.ESC or ch==112 ):
+        if ( ch==ord('q') or ch==curses.ascii.ESC ):
             break
         if ( ch==curses.KEY_UP ):
 	    pos=navigate(pos, 4, -1)
@@ -66,9 +70,20 @@ def main():
         if ( ch==curses.KEY_DOWN ):
 	    pos=navigate(pos, 4, 1)
             move_cursor(stdscr, curses.COLS/2+2, curses.LINES/2+pos )
-        if ( ch==32 ):
+        if ( ch==32 ): #blackspace
 	    show_msg(stdscr, curses.COLS/2+2, curses.LINES/2+pos, "X")
             move_cursor(stdscr, curses.COLS/2+2, curses.LINES/2+pos )
+        if ( ch==9 ): #Tab
+	    pos=navigate(pos, 11, 10)
+            move_cursor(stdscr, curses.COLS/2+11-pos, curses.LINES/2+20 )
+	if ( ch==curses.KEY_ENTER or ch==10 ):
+	    x, y = curses.getsyx() 
+	    if (y==curses.COLS/2+11-pos and x==curses.LINES/2+20):
+	        break
+	    else:
+	       show_msg(stdscr, 10, 10, "x=%d, y=%d" % (x, y) )
+	       pass
+
 
 if __name__=='__main__':
     try:
