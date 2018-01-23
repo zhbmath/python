@@ -48,7 +48,7 @@ def navigate(position, total, n):
 def main():
     stdscr=init_screen() 
     stdscr.box()
-    show_msg(stdscr, curses.COLS/4, curses.LINES/4+0, "q=<quit>, Up=<Up>, Down=<Down>, Space=<select>, Switch=<Tab>"  )
+    show_msg(stdscr, curses.COLS/4, curses.LINES/4+0, "Quit=<q>, Move=<Up>/<Down>, Select=<Space>, Switch=<Tab>" )
     show_msg(stdscr, curses.COLS/2, curses.LINES/2+20, "<OK>"  )
     show_msg(stdscr, curses.COLS/2+10, curses.LINES/2+20, "<Cancel>"  )
 
@@ -64,25 +64,27 @@ def main():
         ch=get_ch(stdscr)
         if ( ch==ord('q') or ch==curses.ascii.ESC ):
             break
-        if ( ch==curses.KEY_UP ):
+        if ( ch==curses.KEY_UP ): # up key
 	    pos=navigate(pos, 4, -1)
             move_cursor(stdscr, curses.COLS/2+2, curses.LINES/2+pos )
-        if ( ch==curses.KEY_DOWN ):
+        if ( ch==curses.KEY_DOWN ): # Down key
 	    pos=navigate(pos, 4, 1)
             move_cursor(stdscr, curses.COLS/2+2, curses.LINES/2+pos )
-        if ( ch==32 ): #blackspace
+        if ( ch==32 ): # Space key
 	    show_msg(stdscr, curses.COLS/2+2, curses.LINES/2+pos, "X")
             move_cursor(stdscr, curses.COLS/2+2, curses.LINES/2+pos )
-        if ( ch==9 ): #Tab
+        if ( ch==9 ): # Tab key
 	    pos=navigate(pos, 11, 10)
             move_cursor(stdscr, curses.COLS/2+11-pos, curses.LINES/2+20 )
-	if ( ch==curses.KEY_ENTER or ch==10 ):
-	    x, y = curses.getsyx() 
-	    if (y==curses.COLS/2+11-pos and x==curses.LINES/2+20):
+	if ( ch==curses.KEY_ENTER or ch==10 ): # Enter key
+	    y, x = curses.getsyx() 
+	    if (x==curses.COLS/2+11 and y==curses.LINES/2+20):
+	        show_msg(stdscr, 10, 10, "x=%d, y=%d" % (x, y) )
 	        break
-	    else:
-	       show_msg(stdscr, 10, 10, "x=%d, y=%d" % (x, y) )
-	       pass
+	    elif (x==curses.COLS/2+11-pos and y==curses.LINES/2+20 ):
+	        show_msg(stdscr, 11, 11, "x=%d, y=%d" % (x, y) )
+	        #apt-get install -d netcat tree vim pv
+	        pass
 
 
 if __name__=='__main__':
